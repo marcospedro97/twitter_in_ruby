@@ -1,0 +1,88 @@
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-half">
+	            <nav class="panel">
+		            <p class="panel-heading">Profile</p>
+                		<div class="panel-block">
+			                <article class="media">
+				                <div class="media-left">
+					                <figure class="image is-64x64">
+						                <%= gravatar_image_tag(@user.email, size: 64, alt: @user.name) %>
+					                </figure>
+				                </div>
+				                <div class="media-content">
+					                <div class="content">
+						                <p>
+							                <strong><%= @user.name %></strong><br />
+							                <small><%= @user.username %></small>
+						                </p>
+					                </div>
+				                </div>
+			                </article>
+		                </div>
+		                <div class="panel-block">
+			                <div class="level is-mobile">
+				                <div class="level-item has-centered-text">
+					                <div>
+						                <p class="heading">Tweets</p>
+						                <p class="title is-6"><%= @user.tweets.count %></p>
+					                </div>
+				                </div>
+				                <div class="level-item has-centered-text">
+					                <div>
+						                <p class="heading">Following</p>
+						                <p class="title is-6">123</p>
+					                </div>
+				                </div>
+					            <div class="level-item has-centered-text">
+					                <div>
+						                <p class="heading">Followers</p>
+						                <p class="title is-6">465K</p>
+					                </div>
+				                </div>
+			                </div>
+		                </div>
+	                </nav>
+                </div>
+            </div>
+            <div class="column is-half">
+                <% @tweets.each do | tweet| %>
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-64x64">
+                                    <%= gravatar_image_tag(tweet.user.email, size: 64, alt: tweet.user.name) %>                    
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <strong><%= tweet.user.name%></strong><br>
+                                <small><%= tweet.user.username %></small>
+                                <p> <%=tweet.tweet%></p>
+                            </div>
+                            <% if user_signed_in? %>
+                                <% if @user.id.eql?(tweet.user.id) %>
+                                    <nav class="level">
+                                        <div class="level-left is-mobile">
+                                            <%= link_to tweet, class: "level-item" do%>
+                                                <span class="icon"><i class="fa fa-link" aria-hideen="true"></i></span>
+                                            <%end%>
+                                            <%= link_to edit_tweet_path(tweet), class: "level-item" do %>
+                                                <span class="icon"><i class="fa fa-pencil" aria-hideen="true"></i></span>
+                                            <% end %>
+                                            <%= link_to tweet, method: :delete, data: {
+                                            confirm: "Tem certeza de que quer apagar este tweet"
+                                            } do%>
+                                                <span class="icon"><i class="fa fa-trash-o" aria-hedden="true"></i></span>
+                                            <% end %>
+                                        </div>
+                                    </nav>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </article>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</section>

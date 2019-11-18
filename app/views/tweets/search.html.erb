@@ -1,0 +1,21 @@
+<% if @user.nil? %>
+    <h1>Not Found</h1>
+<%end%>
+
+<% @user.each do |user| %>
+    <div class="box">
+        <article class="media">
+            <div class="media-left">
+                <figure class="image is-64x64">
+                    <%= gravatar_image_tag(user.email, size: 64, alt: user.name) %>                    
+                </figure>
+            </div>
+            <div class="media-content">
+                <%= link_to user_profile_url(user.username) do %>
+                    <strong><%= user.name%></strong><br />
+                <%end%>
+                <small><%= user.username %></small>
+            </div>
+        </article>
+    </div>
+<%end%>

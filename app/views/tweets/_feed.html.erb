@@ -1,0 +1,53 @@
+<div class="column is-half">
+    <% if user_signed_in? %>
+        <article class="media box">
+            <figure class="media-left">
+                <p class="image is-64x64">
+			        <%= gravatar_image_tag(current_user.email, size: 64, alt: current_user.name) %>
+                </p>
+            </figure>
+            <div class="media-content">
+                <%= render "tweets/form" %>
+            </div>
+        </article>
+    <% end %>
+<div>
+
+<% @tweets.each do | tweet| %>
+    <div class="box">
+        <article class="media">
+            <div class="media-left">
+                <figure class="image is-64x64">
+			        <%= gravatar_image_tag(tweet.user.email, size: 64, alt: tweet.user.name) %>                    
+                </figure>
+            </div>
+            <div class="media-content">
+                <%= link_to user_profile_url(tweet.user.username) do %>
+                    <strong><%= tweet.user.name%></strong><br />
+                <%end%>
+                <small><%= tweet.user.username %></small>
+                <p> <%=tweet.tweet%></p>
+            </div>
+            <% if user_signed_in? %>
+                <% if current_user.id.eql?(tweet.user.id) %>
+                    <nav class="level">
+                        <div class="level-left is-mobile">
+                            <%= link_to tweet, class: "level-item" do%>
+                                <span class="icon"><i class="fa fa-link" aria-hideen="true"></i></span>
+                            <%end%>
+                            <%= link_to edit_tweet_path(tweet), class: "level-item" do %>
+                                <span class="icon"><i class="fa fa-pencil" aria-hideen="true"></i></span>
+                            <% end %>
+                            <%= link_to tweet, method: :delete, data: {
+                            confirm: "Tem certeza de que quer apagar este tweet"
+                            } do%>
+                                <span class="icon"><i class="fa fa-trash-o" aria-hedden="true"></i></span>
+                            <% end %>
+                        </div>
+                    </nav>
+                    <% end %>
+                <% end %>
+            </div>
+        </article>
+<% end %>
+</div>
